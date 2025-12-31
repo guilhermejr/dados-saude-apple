@@ -1,3 +1,3 @@
-source /Users/guilhermejr/.venv/bin/activate
-python /Users/guilhermejr/Desenvolvimento/dados-saude-apple/main.py 
+source venv/bin/activate
+python3 main.py 
 deactivate
