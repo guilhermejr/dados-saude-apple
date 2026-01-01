@@ -54,6 +54,15 @@ def conectar_postgres(config):
 # --- Processa métricas ---
 def processar_metricas(cur, df):
 
+    df[df.columns[1]] = df[df.columns[1]].apply(float)
+    df[df.columns[4]] = df[df.columns[4]].apply(float)
+    df[df.columns[5]] = df[df.columns[5]].apply(float)
+    df[df.columns[6]] = df[df.columns[6]].apply(float)
+    df[df.columns[7]] = df[df.columns[7]].apply(float)
+    df[df.columns[9]] = df[df.columns[9]].apply(float)
+    df[df.columns[10]] = df[df.columns[10]].apply(float)
+    df[df.columns[13]] = df[df.columns[13]].apply(float)
+    df[df.columns[17]] = df[df.columns[17]].apply(float)
     df[df.columns[18]] = df[df.columns[18]].apply(float)
 
     for indice, linha in df.iterrows():
@@ -93,6 +102,11 @@ def processar_metricas(cur, df):
 def processar_treinos(cur, df):
     
     df[df.columns[5]] = df[df.columns[5]].apply(float)
+    df[df.columns[7]] = df[df.columns[7]].apply(float)
+    df[df.columns[8]] = df[df.columns[8]].apply(float)
+    df[df.columns[9]] = df[df.columns[9]].apply(float)
+    df[df.columns[11]] = df[df.columns[11]].apply(float)
+    df[df.columns[13]] = df[df.columns[13]].apply(float)
     
     for indice, linha in df.iterrows():
         descricao, inicio = df.iloc[indice, 0], df.iloc[indice, 1]
