@@ -53,6 +53,9 @@ def conectar_postgres(config):
 
 # --- Processa métricas ---
 def processar_metricas(cur, df):
+
+    df[df.columns[18]] = df[df.columns[18]].apply(float)
+
     for indice, linha in df.iterrows():
         data = str(df.iloc[indice, 0]).split(' ')[0]
         log.info.info(f"Processando métrica do dia: {data}")
@@ -88,6 +91,9 @@ def processar_metricas(cur, df):
 
 # --- Processa treinos ---
 def processar_treinos(cur, df):
+    
+    df[df.columns[5]] = df[df.columns[5]].apply(float)
+    
     for indice, linha in df.iterrows():
         descricao, inicio = df.iloc[indice, 0], df.iloc[indice, 1]
         log.info.info(f"Processando treino: {descricao} do dia: {inicio}")
