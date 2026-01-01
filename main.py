@@ -73,10 +73,10 @@ def processar_metricas(cur, df):
                 )
             """
             valores = (
-                data, converte_formato_hora(df.iloc[indice, 1]), df.iloc[indice, 8], df.iloc[indice, 9], 
-                df.iloc[indice, 10], df.iloc[indice, 11], df.iloc[indice, 12], df.iloc[indice, 13], df.iloc[indice, 14], 
-                df.iloc[indice, 15], df.iloc[indice, 16], df.iloc[indice, 17], df.iloc[indice, 18], df.iloc[indice, 19], 
-                df.iloc[indice, 20]
+                data, converte_formato_hora(df.iloc[indice, 1]), int(df.iloc[indice, 8]), df.iloc[indice, 9], 
+                df.iloc[indice, 10], int(df.iloc[indice, 11]), int(df.iloc[indice, 12]), df.iloc[indice, 13], int(df.iloc[indice, 14]), 
+                int(df.iloc[indice, 15]), int(df.iloc[indice, 16]), df.iloc[indice, 17], df.iloc[indice, 18], int(df.iloc[indice, 19]), 
+                int(df.iloc[indice, 20])
             )
             cur.execute(sql, valores)
         except Exception as e:
@@ -111,7 +111,7 @@ def processar_treinos(cur, df):
             """
             valores = (
                 atividade_id, df.iloc[indice, 1], df.iloc[indice, 2], df.iloc[indice, 3], df.iloc[indice, 5], 
-                df.iloc[indice, 6], df.iloc[indice, 7], df.iloc[indice, 8], df.iloc[indice, 9]
+                int(df.iloc[indice, 6]), df.iloc[indice, 7], df.iloc[indice, 8], df.iloc[indice, 9]
             )
             cur.execute(sql, valores)
         except Exception as e:
