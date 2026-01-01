@@ -19,9 +19,7 @@ def mensagem_error(mensagem, error, encerrar=False):
         sys.exit(1)
 
 def mover_arquivo_para_nao_processado(caminho_arquivo):
-    pasta_backup = Path("Nao_Processados")
-    pasta_backup.mkdir(exist_ok=True)
-    destino = pasta_backup / caminho_arquivo.name
+    destino = os.path.dirname(os.path.abspath(__file__)) + "/Nao_Processados/" + caminho_arquivo.name
     shutil.move(str(caminho_arquivo), str(destino))
     log.info.info(f"Arquivo movido para não processado: {destino}")
 
