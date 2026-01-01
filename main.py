@@ -38,7 +38,7 @@ def conectar_vault():
     try:
         vault = vault_cli.get_client(url=os.getenv('VAULT_URL'), token=os.getenv('VAULT_TOKEN'))
         return {
-            "host": vault.get_secret('secret/saude-service', 'saudeDBHost'),
+            "host": "localhost",
             "dbname": vault.get_secret('secret/saude-service', 'saudeDBBase'),
             "user": vault.get_secret('secret/saude-service', 'saudeDBUser'),
             "password": vault.get_secret('secret/saude-service', 'saudeDBPass')
