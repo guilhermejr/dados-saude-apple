@@ -1,13 +1,12 @@
 
 import logging
-from pathlib import Path
+import os
 from logging.handlers import RotatingFileHandler
 
 class Log:
     def __init__(self, log_dir=None):
         # Diretório para armazenar logs
-        self.log_dir = Path(log_dir or Path(__file__).parent / "logs")
-        self.log_dir.mkdir(parents=True, exist_ok=True)
+        self.log_dir = os.path.dirname(os.path.abspath(__file__)) + "/logs"
 
         # Formato padrão
         self.formatter = logging.Formatter('%(asctime)s | %(levelname)s | %(message)s')
@@ -26,7 +25,7 @@ class Log:
         logger.setLevel(nivel)
 
         if not logger.handlers:
-            handler = RotatingFileHandler(self.log_dir / arquivo, maxBytes=5_000_000, backupCount=3, encoding="utf-8")
+            handler = RotatingFileHandler(self.log_dir +"/"+ arquivo, maxBytes=5_000_000, backupCount=3, encoding="utf-8")
             handler.setLevel(nivel)
             handler.setFormatter(self.formatter)
             logger.addHandler(handler)

@@ -1,4 +1,3 @@
-
 import os
 import sys
 import pandas as pd
@@ -125,12 +124,12 @@ def processar_treinos(cur, df):
 def main():
     config_db = conectar_vault()
     pastas = ["Metricas", "Treinos"]
-    pasta_atual = Path.cwd()
+    pasta_atual = os.path.dirname(os.path.abspath(__file__))
 
     with conectar_postgres(config_db) as conn:
         with conn.cursor() as cur:
             for pasta in pastas:
-                caminho_total = pasta_atual / pasta
+                caminho_total = pasta_atual + "/" + pasta
                 for caminho_arquivo in Path(caminho_total).rglob("*.csv"):
                     log.info.info(f"Processando arquivo: {caminho_arquivo}")
                     try:
