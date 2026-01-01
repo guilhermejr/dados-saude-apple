@@ -63,20 +63,23 @@ def processar_metricas(cur, df):
                 cur.execute("DELETE FROM metricas WHERE id = %s", (retorno[0][0],))
             sql = """
                 INSERT INTO metricas (
-                    data, sono, passos, distancia, energia_ativa,
+                    data, sono_total, sono_essencial, sono_profundo, sono_rem, 
+                    sem_dormir, passos, distancia, energia_ativa,
                     frequencia_cardiaca_maxima, frequencia_cardiaca_minima,
                     frequencia_cardiaca_media, frequencia_cardiaca_em_repouso,
                     hora_de_ficar_em_pe, frequencia_cardiaca_ao_caminhar_media,
                     peso, saturacao_de_oxigenio, tempo_em_pe, exposicao_ao_sol, criado
                 ) VALUES (
-                    %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, CURRENT_TIMESTAMP
+                    %s, %s, %s, %s,  %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, CURRENT_TIMESTAMP
                 )
             """
             valores = (
-                data, converte_formato_hora(df.iloc[indice, 1]), int(df.iloc[indice, 8]), df.iloc[indice, 9], 
-                df.iloc[indice, 10], int(df.iloc[indice, 11]), int(df.iloc[indice, 12]), df.iloc[indice, 13], int(df.iloc[indice, 14]), 
-                int(df.iloc[indice, 15]), int(df.iloc[indice, 16]), df.iloc[indice, 17], df.iloc[indice, 18], int(df.iloc[indice, 19]), 
-                int(df.iloc[indice, 20])
+                data, converte_formato_hora(df.iloc[indice, 1]), converte_formato_hora(df.iloc[indice, 4]), 
+                converte_formato_hora(df.iloc[indice, 5]), converte_formato_hora(df.iloc[indice, 6]), 
+                converte_formato_hora(df.iloc[indice, 7]), int(df.iloc[indice, 8]), df.iloc[indice, 9], 
+                df.iloc[indice, 10], int(df.iloc[indice, 11]), int(df.iloc[indice, 12]), df.iloc[indice, 13], 
+                int(df.iloc[indice, 14]), int(df.iloc[indice, 15]), int(df.iloc[indice, 16]), df.iloc[indice, 17], 
+                df.iloc[indice, 18], int(df.iloc[indice, 19]), int(df.iloc[indice, 20])
             )
             cur.execute(sql, valores)
         except Exception as e:
@@ -106,12 +109,13 @@ def processar_treinos(cur, df):
                 INSERT INTO treinos (
                     atividade_id, inicio, fim, duracao, energia_ativa,
                     frequencia_cardiaca_maxima, frequencia_cardiaca_media,
-                    distancia, velocidade_media, criado
-                ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, CURRENT_TIMESTAMP)
+                    distancia, velocidade_media, passos, frequencia_passos, bracadas, frequencia_bracadas, criado
+                ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, CURRENT_TIMESTAMP)
             """
             valores = (
                 atividade_id, df.iloc[indice, 1], df.iloc[indice, 2], df.iloc[indice, 3], df.iloc[indice, 5], 
-                int(df.iloc[indice, 6]), df.iloc[indice, 7], df.iloc[indice, 8], df.iloc[indice, 9]
+                int(df.iloc[indice, 6]), df.iloc[indice, 7], df.iloc[indice, 8], df.iloc[indice, 9], int(df.iloc[indice, 10]), 
+                df.iloc[indice, 11], int(df.iloc[indice, 12]), df.iloc[indice, 13]
             )
             cur.execute(sql, valores)
         except Exception as e:
