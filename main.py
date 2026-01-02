@@ -77,7 +77,7 @@ def processar_metricas(cur, df):
                 INSERT INTO metricas (
                     data, sono_total, sono_essencial, sono_profundo, sono_rem, 
                     sem_dormir, passos, distancia, energia_ativa,
-                    frequencia_cardiaca_maxima, frequencia_cardiaca_minima,
+                    frequencia_cardiaca_minima, frequencia_cardiaca_maxima, 
                     frequencia_cardiaca_media, frequencia_cardiaca_em_repouso,
                     hora_de_ficar_em_pe, frequencia_cardiaca_ao_caminhar_media,
                     peso, saturacao_de_oxigenio, tempo_em_pe, exposicao_ao_sol, criado
