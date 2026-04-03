@@ -152,9 +152,6 @@ def main():
     pastas = ["Metricas", "Treinos"]
     pasta_atual = os.path.dirname(os.path.abspath(__file__))
 
-    push = Push()
-    push.mensagem(config[1], "Processamento de arquivo de saúde concluído com sucesso")
-
     with conectar_postgres(config[0]) as conn:
         with conn.cursor() as cur:
             for pasta in pastas:
@@ -174,7 +171,8 @@ def main():
                         conn.rollback()
                         mensagem_error(f"Erro ao processar arquivo {caminho_arquivo}", e)
                         mover_arquivo_para_nao_processado(caminho_arquivo)
-                        Push(config[1], "Erro ao processar arquivo de saúde")
+                        push = Push()
+                        push.mensagem(config[1], "Erro ao processar arquivo de Saúde")
                     else:
                         os.remove(caminho_arquivo)
                         log.info.info(f"Arquivo removido: {caminho_arquivo}")
