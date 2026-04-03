@@ -166,7 +166,8 @@ def main():
                             processar_metricas(cur, df)
                         else:
                             processar_treinos(cur, df)
-                        Push(config[1], "Processamento de arquivo de saúde concluído com sucesso")
+                        push = Push()
+                        push.mensagem(config[1], "Processamento de arquivo de saúde concluído com sucesso")
                         conn.commit()
                     except Exception as e:
                         conn.rollback()
