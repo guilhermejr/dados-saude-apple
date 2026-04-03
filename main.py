@@ -8,6 +8,7 @@ from pathlib import Path
 from datetime import datetime, timedelta
 import shutil
 from log import Log
+from push import Push
 
 # --- Configuração de logging ---
 log = Log()
@@ -35,12 +36,15 @@ def converte_formato_hora(hora):
 def conectar_vault():
     try:
         vault = vault_cli.get_client(url=os.getenv('VAULT_URL'), token=os.getenv('VAULT_TOKEN'))
-        return {
+        return [{
             "host": "localhost",
             "dbname": vault.get_secret('secret/saude-service', 'saudeDBBase'),
             "user": vault.get_secret('secret/saude-service', 'saudeDBUser'),
             "password": vault.get_secret('secret/saude-service', 'saudeDBPass')
-        }
+        }, {
+            "token": vault.get_secret('secret/application', 'pushoverToken'),
+            "user": vault.get_secret('secret/application', 'pushoverUser')
+        }]
     except Exception as e:
         mensagem_error("Erro ao conectar ao Vault", e, True)
 
@@ -144,11 +148,11 @@ def processar_treinos(cur, df):
 
 # --- Função principal ---
 def main():
-    config_db = conectar_vault()
+    config = conectar_vault()
     pastas = ["Metricas", "Treinos"]
     pasta_atual = os.path.dirname(os.path.abspath(__file__))
 
-    with conectar_postgres(config_db) as conn:
+    with conectar_postgres(config[0]) as conn:
         with conn.cursor() as cur:
             for pasta in pastas:
                 caminho_total = pasta_atual + "/" + pasta
@@ -162,12 +166,13 @@ def main():
                             processar_metricas(cur, df)
                         else:
                             processar_treinos(cur, df)
-
+                        Push(config[1], "Processamento de arquivo de saúde concluído com sucesso")
                         conn.commit()
                     except Exception as e:
                         conn.rollback()
                         mensagem_error(f"Erro ao processar arquivo {caminho_arquivo}", e)
                         mover_arquivo_para_nao_processado(caminho_arquivo)
+                        Push(config[1], "Erro ao processar arquivo de saúde")
                     else:
                         os.remove(caminho_arquivo)
                         log.info.info(f"Arquivo removido: {caminho_arquivo}")
