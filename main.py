@@ -152,6 +152,9 @@ def main():
     pastas = ["Metricas", "Treinos"]
     pasta_atual = os.path.dirname(os.path.abspath(__file__))
 
+    push = Push()
+    push.mensagem(config[1], "Processamento de arquivo de saúde concluído com sucesso")
+
     with conectar_postgres(config[0]) as conn:
         with conn.cursor() as cur:
             for pasta in pastas:
@@ -166,8 +169,6 @@ def main():
                             processar_metricas(cur, df)
                         else:
                             processar_treinos(cur, df)
-                        push = Push()
-                        push.mensagem(config[1], "Processamento de arquivo de saúde concluído com sucesso")
                         conn.commit()
                     except Exception as e:
                         conn.rollback()
