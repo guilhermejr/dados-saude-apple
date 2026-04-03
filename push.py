@@ -12,3 +12,7 @@ class Push:
             "message": mensagem,
         }), { "Content-type": "application/x-www-form-urlencoded" })
         conn.getresponse()
+        print("Push enviado com sucesso!")
+        print("-->" + config['token'])
+        print("-->" + config['user'])
+        print("-->" + mensagem)
